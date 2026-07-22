@@ -1,8 +1,9 @@
+using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
-using Pingr.Application.Abstractions.Services;
 using Microsoft.Extensions.Options;
+using Pingr.Application.Abstractions.Services;
 
-namespace Pingr.Infrastructure.Services.Authentication.PasswordHasher;
+namespace Pingr.Infrastructure.Services.Authentication;
 
 /// <summary>
 /// Implementation of <see cref="IPasswordHasher"/>
@@ -13,9 +14,9 @@ public class PasswordHasher(IOptions<PasswordHasherOptions> options) : IPassword
 
     public string HashPassword(string password, CancellationToken cancellationToken)
     {
-        byte[] salt = RandomNumberGenerator.GetBytes(_options.SaltSize);
-        byte[] hash = Rfc2898DeriveBytes.Pbkdf2(password, salt, _options.Iterations, _options.HashAlgorithmName, _options.HashSize);
-        return $"{Convert.ToHexString(hash)}-{Convert.ToHexString(salt)}-{_options.Iterations}-{_options.HashAlgorithmName}-{_options.HashSize}";
+        byte[] salt = RandomNumberGenerator.GetBytes(_options.SaltSizeInBytes);
+        byte[] hash = Rfc2898DeriveBytes.Pbkdf2(password, salt, _options.IterationCount, HashAlgorithmName.SHA512, _options.HashSizeInBytes);
+        return $"{Convert.ToHexString(hash)}-{Convert.ToHexString(salt)}-{_options.IterationCount}-{HashAlgorithmName.SHA512}-{_options.HashSizeInBytes}";
     }
 
     public bool VerifyPassword(string inputPassword, string hashedPassword, CancellationToken cancellationToken)
@@ -32,4 +33,24 @@ public class PasswordHasher(IOptions<PasswordHasherOptions> options) : IPassword
         
         return CryptographicOperations.FixedTimeEquals(inputHash, hash);
     }
+}
+
+/// <summary>
+/// Configuration options for <see cref="IPasswordHasher"/>
+/// </summary>
+public sealed class PasswordHasherOptions
+{
+    public const string SectionName = "PasswordHasher";
+    
+    [Required]
+    [Range(16, int.MaxValue)]
+    public int SaltSizeInBytes { get; init; }
+    
+    [Required]
+    [Range(32, int.MaxValue)]
+    public int HashSizeInBytes { get; init; }
+    
+    [Required]
+    [Range(100_000, int.MaxValue)]
+    public int IterationCount { get; init; }
 }

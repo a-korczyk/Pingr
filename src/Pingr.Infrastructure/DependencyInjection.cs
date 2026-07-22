@@ -10,7 +10,6 @@ using OllamaSharp;
 using Pingr.Infrastructure.Repositories;
 using Pingr.Infrastructure.Services;
 using Pingr.Infrastructure.Services.Authentication;
-using Pingr.Infrastructure.Services.Authentication.PasswordHasher;
 using Pingr.Infrastructure.Services.Logs;
 using Pingr.Infrastructure.Services.Logs.Digest;
 using QRCoder;
@@ -57,8 +56,10 @@ public static class DependencyInjection
         // User
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
-        services.Configure<PasswordHasherOptions>(
-            configuration.GetSection("PasswordHasher"));
+        services.AddOptions<PasswordHasherOptions>()
+            .BindConfiguration(PasswordHasherOptions.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
         services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<ITokenGenerator, TokenGenerator>();
