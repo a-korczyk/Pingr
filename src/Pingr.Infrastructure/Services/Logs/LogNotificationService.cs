@@ -4,6 +4,7 @@ using Pingr.Application.Abstractions.Services;
 using Pingr.Application.Abstractions.Services.Email;
 using Pingr.Domain.Entities;
 using Microsoft.Extensions.Configuration;
+using Pingr.Application.Abstractions.Services.Logs;
 
 namespace Pingr.Infrastructure.Services.Logs;
 

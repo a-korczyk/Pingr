@@ -1,4 +1,5 @@
 using Pingr.Application.Abstractions.Services;
+using Pingr.Application.Abstractions.Services.Logs;
 
 namespace Pingr.Infrastructure.Services.Logs.Digest;
 

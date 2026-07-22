@@ -1,4 +1,4 @@
-namespace Pingr.Application.Abstractions.Services;
+namespace Pingr.Application.Abstractions.Services.Authentication;
 
 /// <summary>
 /// Provides methods related to password hashing.

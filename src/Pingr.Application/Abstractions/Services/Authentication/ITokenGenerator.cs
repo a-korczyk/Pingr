@@ -1,6 +1,4 @@
-using Pingr.Domain.Entities;
-
-namespace Pingr.Application.Abstractions.Services;
+namespace Pingr.Application.Abstractions.Services.Authentication;
 
 /// <summary>
 /// Provides methods for generating and hashing cryptographically secure tokens.

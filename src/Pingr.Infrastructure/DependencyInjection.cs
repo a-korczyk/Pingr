@@ -7,6 +7,8 @@ using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OllamaSharp;
+using Pingr.Application.Abstractions.Services.Authentication;
+using Pingr.Application.Abstractions.Services.Logs;
 using Pingr.Infrastructure.Repositories;
 using Pingr.Infrastructure.Services;
 using Pingr.Infrastructure.Services.Authentication;

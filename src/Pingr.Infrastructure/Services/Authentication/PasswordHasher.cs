@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using Microsoft.Extensions.Options;
 using Pingr.Application.Abstractions.Services;
+using Pingr.Application.Abstractions.Services.Authentication;
 
 namespace Pingr.Infrastructure.Services.Authentication;
 

@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Pingr.Application.Abstractions.Services;
 using Microsoft.AspNetCore.Http;
+using Pingr.Application.Abstractions.Services.Authentication;
 
 namespace Pingr.Infrastructure.Services.Authentication;
 

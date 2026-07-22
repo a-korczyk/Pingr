@@ -2,6 +2,7 @@ using Pingr.Application.Abstractions.Repositories;
 using Pingr.Application.Abstractions.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Pingr.Application.Abstractions.Services.Logs;
 using IEmailSender = Pingr.Application.Abstractions.Services.Email.IEmailSender;
 
 namespace Pingr.Infrastructure.Services.Logs.Digest;

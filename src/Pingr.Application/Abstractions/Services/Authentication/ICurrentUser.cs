@@ -1,6 +1,4 @@
-using Pingr.Domain.Entities;
-
-namespace Pingr.Application.Abstractions.Services;
+namespace Pingr.Application.Abstractions.Services.Authentication;
 
 /// <summary>
 /// Provides access to information about the currently authenticated user.

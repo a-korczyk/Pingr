@@ -3,6 +3,7 @@ using System.Text;
 using Pingr.Application.Abstractions.Services;
 using Microsoft.Extensions.Configuration;
 using OtpNet;
+using Pingr.Application.Abstractions.Services.Authentication;
 using QRCoder;
 
 namespace Pingr.Infrastructure.Services.Authentication;

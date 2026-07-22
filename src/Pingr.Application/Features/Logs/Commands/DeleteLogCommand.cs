@@ -5,6 +5,8 @@ using Pingr.Application.Abstractions.Services;
 using Pingr.Domain.Common;
 using Pingr.Domain.Entities;
 using MediatR;
+using Pingr.Application.Abstractions.Services.Authentication;
+using Pingr.Application.Abstractions.Services.Logs;
 
 namespace Pingr.Application.Features.Logs.Commands;
 

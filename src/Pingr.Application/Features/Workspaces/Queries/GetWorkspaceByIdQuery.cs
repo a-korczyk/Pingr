@@ -2,6 +2,7 @@ using Pingr.Application.Abstractions.Repositories;
 using Pingr.Application.Abstractions.Services;
 using Pingr.Domain.Common;
 using MediatR;
+using Pingr.Application.Abstractions.Services.Authentication;
 
 namespace Pingr.Application.Features.Workspaces.Queries;
 
