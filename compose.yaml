@@ -6,11 +6,12 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - postgres
+      - pingr.db
+      - pingr.mail
       - pingr.cache
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=pingr;Username=postgres;Password=postgres
+      ConnectionStrings__DefaultConnection: Host=pingr.db;Port=5432;Database=pingr;Username=postgres;Password=postgres
       ConnectionStrings__Cache: "pingr.cache:6379,password=jTjlQ9mKFUHYbpiHYXM23HUrZyti4H3zUKrc6pdWeUP"
       Tokens__AccessToken__Secret: "yU16thMLT0uaBgVyDh1nU2f4ei2fxlhx3tPVnTPQPas"
       Ai__BaseAddress: "http://host.docker.internal:11434"
@@ -18,7 +19,8 @@ services:
       Email__Username: "Pingr"
       Email__Password: "nyQdap-vecved-1rikti"
       
-  postgres:
+  pingr.db:
+    container_name: "pingr.db"
     image: postgres:17
     restart: unless-stopped
     environment:
@@ -30,9 +32,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     
-  mailpit:
+  pingr.mail:
+    container_name: "pingr.mail"
     image: axllent/mailpit
-    container_name: mailpit
     restart: unless-stopped
     environment:
       MP_MAX_MESSAGES: 5000
