@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
 using Pingr.Application.Abstractions.Services;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using OtpNet;
 using Pingr.Application.Abstractions.Services.Authentication;
 using QRCoder;
@@ -10,8 +12,10 @@ namespace Pingr.Infrastructure.Services.Authentication;
 
 /// <inheritdoc/>
 public sealed class TwoFactorService(
-    IConfiguration configuration) : ITwoFactorService
+    IOptions<TwoFactorOptions> options) : ITwoFactorService
 {
+    private readonly TwoFactorOptions _options = options.Value;
+    
     public byte[] GenerateSecret()
     {
         return RandomNumberGenerator.GetBytes(32);
@@ -29,8 +33,7 @@ public sealed class TwoFactorService(
     public IList<string> GenerateRecoveryCodes()
     {
         var recoveryCodes = new List<string>();
-        string recoveryCodeAlphabet = configuration["TwoFactor:RecoveryCodeAlphabet"] 
-                                      ?? throw new InvalidOperationException("Recovery code alphabet is missing.");
+        string recoveryCodeAlphabet = _options.RecoveryCodeAlphabet;
         
         while (recoveryCodes.Count < 10)
         {
@@ -67,8 +70,7 @@ public sealed class TwoFactorService(
         string userEmail,
         byte[] userTwoFactorSecret)
     {
-        string escapedIssuer = Uri.EscapeDataString(configuration["TwoFactor:QrCode:Issuer"]
-                                                    ?? throw new InvalidOperationException("QrCode Issuer is missing."));
+        string escapedIssuer = Uri.EscapeDataString(_options.QrCode.Issuer);
         string escapedUser = Uri.EscapeDataString(userEmail);
         
         string otpUri = $"""
@@ -99,4 +101,23 @@ public sealed class TwoFactorService(
     {
         return Base32Encoding.ToBytes(secret);
     }
+}
+
+public sealed class TwoFactorOptions
+{
+    public const string SectionName = "TwoFactor";
+
+    [Required]
+    [MaxLength(255)]
+    public string RecoveryCodeAlphabet { get; init; } = string.Empty;
+    
+    [Required]
+    public QrCodeOptions QrCode { get; init; } = new();
+}
+
+public sealed class QrCodeOptions
+{
+    [Required]
+    [MaxLength(255)]
+    public string Issuer { get; init; } = string.Empty;
 }

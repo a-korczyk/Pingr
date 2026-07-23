@@ -82,6 +82,10 @@ public static class DependencyInjection
         // 2FA
         services.AddScoped<ITwoFactorChallengeRepository, TwoFactorChallengeRepository>();
         services.AddScoped<ITwoFactorService, TwoFactorService>();
+        services.AddOptions<TwoFactorOptions>()
+            .BindConfiguration(TwoFactorOptions.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
         
         // Refresh token
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
