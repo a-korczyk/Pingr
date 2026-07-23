@@ -12,12 +12,9 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__DefaultConnection: Host=pingr.db;Port=5432;Database=pingr;Username=postgres;Password=postgres
-      ConnectionStrings__Cache: "pingr.cache:6379,password=jTjlQ9mKFUHYbpiHYXM23HUrZyti4H3zUKrc6pdWeUP"
-      Tokens__AccessToken__Secret: "yU16thMLT0uaBgVyDh1nU2f4ei2fxlhx3tPVnTPQPas"
-      Ai__BaseAddress: "http://host.docker.internal:11434"
-      Ai__Model: "qwen3:8b"
-      Email__Username: "Pingr"
-      Email__Password: "nyQdap-vecved-1rikti"
+      ConnectionStrings__Cache: pingr.cache:6379,password=jTjlQ9mKFUHYbpiHYXM23HUrZyti4H3zUKrc6pdWeUP
+      Tokens__AccessToken__Secret: yU16thMLT0uaBgVyDh1nU2f4ei2fxlhx3tPVnTPQPas
+      Email__Password: nyQdap-vecved-1rikti
       
   pingr.db:
     container_name: "pingr.db"
