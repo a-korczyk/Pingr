@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.AI;
 
 namespace Pingr.Infrastructure.Services;
@@ -47,4 +48,19 @@ public sealed class ChatService(
             },
             cancellationToken);
     }
+}
+
+/// <summary>
+/// Chat model configuration options.
+/// </summary>
+public sealed class ChatServiceOptions 
+{
+    public const string SectionName = "Ai";
+
+    [Required] 
+    public string BaseAddress { get; init; } = string.Empty;
+    
+    [Required]
+    [MaxLength(255)]
+    public string Model { get; init; } = string.Empty;
 }

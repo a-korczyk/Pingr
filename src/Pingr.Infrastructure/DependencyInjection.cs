@@ -39,14 +39,23 @@ public static class DependencyInjection
         services.AddSingleton<ICacheService, CacheService>();
         
         // AI chat
+        services.AddOptions<ChatServiceOptions>()
+            .BindConfiguration(ChatServiceOptions.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
+        var chatServiceOptions = configuration
+            .GetSection(ChatServiceOptions.SectionName)
+            .Get<ChatServiceOptions>() ?? throw new InvalidOperationException("Chat service configuration not found.");
+        
         services.AddSingleton<IChatClient>(_ =>
             new OllamaApiClient(
                 new HttpClient
                 {
-                    BaseAddress = new Uri(configuration["Ai:BaseAddress"]),
+                    BaseAddress = new Uri(chatServiceOptions.BaseAddress),
                     Timeout = TimeSpan.FromMinutes(5)
                 },
-                configuration["Ai:Model"]));
+                chatServiceOptions.Model));
         services.AddSingleton<IChatService, ChatService>();
         
         // Email
@@ -55,6 +64,7 @@ public static class DependencyInjection
             .BindConfiguration(EmailOptions.SectionName)
             .ValidateDataAnnotations()
             .ValidateOnStart();
+        
         services.AddScoped<ILogNotificationService, LogNotificationService>();
         
         // User
