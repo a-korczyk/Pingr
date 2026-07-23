@@ -51,8 +51,10 @@ public static class DependencyInjection
         
         // Email
         services.AddSingleton<IEmailSender, EmailSender>();
-        services.Configure<EmailOptions>(
-            configuration.GetSection(EmailOptions.SectionName));
+        services.AddOptions<EmailOptions>()
+            .BindConfiguration(EmailOptions.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
         services.AddScoped<ILogNotificationService, LogNotificationService>();
         
         // User
