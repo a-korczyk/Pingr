@@ -6,6 +6,7 @@ using Pingr.Application.Features.Users.Commands.DeleteUser;
 using Pingr.Domain.Common;
 using Pingr.Domain.Entities;
 using MediatR;
+using Pingr.Application.Abstractions.Services.Authentication;
 
 namespace Pingr.Application.Features.Workspaces.Commands.DeleteWorkspace;
 

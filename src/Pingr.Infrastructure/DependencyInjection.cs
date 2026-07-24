@@ -7,10 +7,11 @@ using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OllamaSharp;
+using Pingr.Application.Abstractions.Services.Authentication;
+using Pingr.Application.Abstractions.Services.Logs;
 using Pingr.Infrastructure.Repositories;
 using Pingr.Infrastructure.Services;
 using Pingr.Infrastructure.Services.Authentication;
-using Pingr.Infrastructure.Services.Authentication.PasswordHasher;
 using Pingr.Infrastructure.Services.Logs;
 using Pingr.Infrastructure.Services.Logs.Digest;
 using QRCoder;
@@ -38,27 +39,41 @@ public static class DependencyInjection
         services.AddSingleton<ICacheService, CacheService>();
         
         // AI chat
+        services.AddOptions<ChatServiceOptions>()
+            .BindConfiguration(ChatServiceOptions.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
+        var chatServiceOptions = configuration
+            .GetSection(ChatServiceOptions.SectionName)
+            .Get<ChatServiceOptions>() ?? throw new InvalidOperationException("Chat service configuration not found.");
+        
         services.AddSingleton<IChatClient>(_ =>
             new OllamaApiClient(
                 new HttpClient
                 {
-                    BaseAddress = new Uri(configuration["Ai:BaseAddress"]),
+                    BaseAddress = new Uri(chatServiceOptions.BaseAddress),
                     Timeout = TimeSpan.FromMinutes(5)
                 },
-                configuration["Ai:Model"]));
+                chatServiceOptions.Model));
         services.AddSingleton<IChatService, ChatService>();
         
         // Email
         services.AddSingleton<IEmailSender, EmailSender>();
-        services.Configure<EmailOptions>(
-            configuration.GetSection(EmailOptions.SectionName));
+        services.AddOptions<EmailOptions>()
+            .BindConfiguration(EmailOptions.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+        
         services.AddScoped<ILogNotificationService, LogNotificationService>();
         
         // User
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
-        services.Configure<PasswordHasherOptions>(
-            configuration.GetSection("PasswordHasher"));
+        services.AddOptions<PasswordHasherOptions>()
+            .BindConfiguration(PasswordHasherOptions.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
         services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<ITokenGenerator, TokenGenerator>();
@@ -67,6 +82,10 @@ public static class DependencyInjection
         // 2FA
         services.AddScoped<ITwoFactorChallengeRepository, TwoFactorChallengeRepository>();
         services.AddScoped<ITwoFactorService, TwoFactorService>();
+        services.AddOptions<TwoFactorOptions>()
+            .BindConfiguration(TwoFactorOptions.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
         
         // Refresh token
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();

@@ -1,4 +1,4 @@
-namespace Pingr.Application.Abstractions.Services;
+namespace Pingr.Application.Abstractions.Services.Authentication;
 
 /// <summary>
 /// Provides two-factor authentication related methods.

@@ -67,19 +67,19 @@ public sealed class Log
 /// </summary>
 public enum LogStatus
 {
-    Pending,
-    InProgress,
-    Resolved,
+    Pending = 0,
+    InProgress = 1,
+    Resolved = 2,
     
     /// <summary>
     /// The log remains unresolved.
     /// </summary>
-    Unresolved,
+    Unresolved = 3,
     
     /// <summary>
     /// Any work on this log has been canceled.
     /// </summary>
-    Canceled
+    Canceled = 4
 }
 
 /// <summary>
@@ -87,8 +87,8 @@ public enum LogStatus
 /// </summary>
 public enum LogType
 {
-    Info,
-    Warning,
-    Error,
-    CriticalError
+    Info = 0,
+    Warning = 1,
+    Error = 2,
+    CriticalError = 3
 }

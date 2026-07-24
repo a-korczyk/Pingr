@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Pingr.Application.Abstractions.Services;
 using Pingr.Application.Abstractions.Services.Email;
 using MailKit.Net.Smtp;
@@ -72,30 +73,69 @@ public sealed class EmailOptions
     /// <summary>
     /// SMTP server host name.
     /// </summary>
+    [Required]
+    [MaxLength(255)]
     public string Host { get; init; } = string.Empty;
     
     /// <summary>
     /// SMTP server port number.
     /// </summary>
+    [Required]
+    [Range(1, 65535)]
     public int Port { get; init; }
     
     /// <summary>
     /// SMTP username.
     /// </summary>
+    [Required]
+    [MaxLength(255)]
     public string Username { get; init; } = string.Empty;
     
     /// <summary>
     /// SMTP password.
     /// </summary>
+    [Required]
+    [MaxLength(255)]
     public string Password { get; init; } = string.Empty;
     
     /// <summary>
     /// Sender email address.
     /// </summary>
+    [Required]
+    [EmailAddress]
+    [MaxLength(255)]
     public string FromAddress { get; init; } = string.Empty;
     
     /// <summary>
     /// Sender display name.
     /// </summary>
+    [Required]
+    [MaxLength(255)]
     public string FromName { get; init; } = string.Empty;
+
+    [Required] 
+    public EmailLimitsOptions Limits { get; init; } = new();
+}
+
+public sealed class EmailLimitsOptions
+{
+    [Required]
+    public CriticalErrorLimitsOptions CriticalErrors { get; init; } = new();
+}
+
+public sealed class CriticalErrorLimitsOptions
+{
+    /// <summary>
+    /// Max amount of critical error notifications allowed <see cref="PerMinutes"/>.
+    /// </summary>
+    [Required]
+    [Range(1, int.MaxValue)]
+    public int Max { get; init; }
+    
+    /// <summary>
+    /// Per how many minutes should the limit reset.
+    /// </summary>
+    [Required]
+    [Range(0, double.MaxValue, MinimumIsExclusive = true)]
+    public double PerMinutes { get; init; }
 }

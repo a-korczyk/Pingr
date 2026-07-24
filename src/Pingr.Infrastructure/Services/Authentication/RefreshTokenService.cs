@@ -3,6 +3,7 @@ using Pingr.Application.Abstractions.Repositories;
 using Pingr.Application.Abstractions.Services;
 using Pingr.Domain.Entities;
 using Microsoft.Extensions.Options;
+using Pingr.Application.Abstractions.Services.Authentication;
 
 namespace Pingr.Infrastructure.Services.Authentication;
 

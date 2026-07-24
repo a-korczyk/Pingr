@@ -6,6 +6,7 @@ using Pingr.Application.Abstractions.Services;
 using Pingr.Application.Abstractions.Services.Email;
 using Pingr.Domain.Common;
 using MediatR;
+using Pingr.Application.Abstractions.Services.Authentication;
 
 namespace Pingr.Application.Features.Authentication.Commands;
 

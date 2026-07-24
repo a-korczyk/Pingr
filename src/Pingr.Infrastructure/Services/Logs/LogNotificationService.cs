@@ -1,9 +1,12 @@
+using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
 using Pingr.Application.Abstractions.Services;
 using Pingr.Application.Abstractions.Services.Email;
 using Pingr.Domain.Entities;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using Pingr.Application.Abstractions.Services.Logs;
 
 namespace Pingr.Infrastructure.Services.Logs;
 
@@ -11,15 +14,17 @@ namespace Pingr.Infrastructure.Services.Logs;
 public sealed class LogNotificationService(
     IWorkspaceService workspaceService,
     ICacheService cacheService,
-    IConfiguration configuration) : ILogNotificationService
+    IOptions<EmailOptions> emailOptions) : ILogNotificationService
 {
+    private readonly EmailOptions _emailOptions = emailOptions.Value;
+    
     public async Task NotifyCriticalErrorAsync(
         Log log,
         User user,
         CancellationToken cancellationToken)
     {
-        var maxAmount = Convert.ToInt32(configuration["Email:Limits:CriticalErrors:Max"]); 
-        var maxPerMinutes = Convert.ToInt32(configuration["Email:Limits:CriticalErrors:PerMinutes"]);
+        var maxAmount = Convert.ToInt32(_emailOptions.Limits.CriticalErrors.Max); 
+        var maxPerMinutes = Convert.ToInt32(_emailOptions.Limits.CriticalErrors.PerMinutes);
         
         var criticalErrorSignature = Convert.ToHexString(
             SHA256.HashData(Encoding.UTF8.GetBytes(log.Title)));

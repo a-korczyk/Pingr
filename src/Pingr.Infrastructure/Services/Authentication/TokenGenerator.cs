@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Pingr.Application.Abstractions.Services;
 using Microsoft.AspNetCore.WebUtilities;
+using Pingr.Application.Abstractions.Services.Authentication;
 
 namespace Pingr.Infrastructure.Services.Authentication;
 

@@ -3,6 +3,7 @@ using Pingr.Application.Abstractions.Repositories;
 using Pingr.Application.Abstractions.Services;
 using Pingr.Application.Abstractions.Services.Email;
 using Microsoft.Extensions.DependencyInjection;
+using Pingr.Application.Abstractions.Services.Logs;
 
 namespace Pingr.Infrastructure.Services.Logs.Digest;
 

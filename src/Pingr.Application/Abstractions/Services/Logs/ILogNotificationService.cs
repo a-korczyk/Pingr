@@ -1,7 +1,6 @@
-using Pingr.Application.Abstractions.Repositories;
 using Pingr.Domain.Entities;
 
-namespace Pingr.Application.Abstractions.Services;
+namespace Pingr.Application.Abstractions.Services.Logs;
 
 /// <summary>
 /// Provides methods for sending log-related notifications.
