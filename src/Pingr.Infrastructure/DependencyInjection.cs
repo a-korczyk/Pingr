@@ -14,6 +14,7 @@ using Pingr.Infrastructure.Services;
 using Pingr.Infrastructure.Services.Authentication;
 using Pingr.Infrastructure.Services.Logs;
 using Pingr.Infrastructure.Services.Logs.Digest;
+using Pingr.Infrastructure.Services.Monitors;
 using QRCoder;
 using StackExchange.Redis;
 
@@ -102,6 +103,12 @@ public static class DependencyInjection
         services.AddSingleton<ILogDigestStatisticsBuilder, LogDigestStatisticsBuilder>();
         services.AddSingleton<ILogDigestEmailBuilder, LogDigestEmailBuilder>();
         services.AddHostedService<LogDigestBackgroundService>();
+        
+        // Monitors
+        services.AddHostedService<MonitorBackgroundService>();
+        services.AddSingleton<IMonitorQueue, MonitorQueue>();
+        services.AddScoped<IMonitorRepository, MonitorRepository>();
+        services.AddHttpClient<IMonitorService, MonitorService>();
         
         return services;
     }
