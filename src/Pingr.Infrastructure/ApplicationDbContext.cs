@@ -1,5 +1,6 @@
 using Pingr.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Monitor = Pingr.Domain.Entities.Monitor;
 
 namespace Pingr.Infrastructure;
 
@@ -24,6 +25,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Workspace> Workspaces => Set<Workspace>();
     
     public DbSet<WorkspaceUser> WorkspaceUsers => Set<WorkspaceUser>();
+    
+    public DbSet<Monitor> Monitors => Set<Monitor>();
     
     public DbSet<Log> Logs => Set<Log>();
 

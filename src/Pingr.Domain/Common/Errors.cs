@@ -168,6 +168,22 @@ public sealed class LogErrors
 }
 
 /// <summary>
+/// Contains application errors related to monitors.
+/// </summary>
+public sealed class MonitorErrors 
+{
+    public static readonly Error Forbidden =
+        new(
+            "Monitors.Forbidden",
+            "You don't have access this monitor.");
+    
+    public static readonly Error NotFound =
+        new(
+            "Monitors.NotFound",
+            "No monitor with the provided details could be found.");
+}
+
+/// <summary>
 /// Contains application errors related to validation.
 /// </summary>
 public static class ValidationErrors

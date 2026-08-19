@@ -12,6 +12,8 @@ public sealed class Workspace
     
     public ICollection<WorkspaceUser> WorkspaceUsers { get; private set; } = new List<WorkspaceUser>();
     
+    public ICollection<Monitor> Monitors { get; private set; } = new List<Monitor>();
+    
     public ICollection<Log> Logs { get; private set; } = new List<Log>();
     
     public string Name { get; private set; }

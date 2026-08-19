@@ -1,4 +1,5 @@
 using Pingr.Domain.Entities;
+using Monitor = Pingr.Domain.Entities.Monitor;
 
 namespace Pingr.Application.Abstractions.Services.Email;
 
@@ -115,4 +116,20 @@ public static class WorkspaceEmailTemplates
                     
              This email was generated automatically by Pingr.
              """);
+}
+
+/// <summary>
+/// Provides predefined email templates for monitor related notifications.
+/// </summary>
+public static class MonitorEmailTemplates
+{
+    public static EmailTemplate MonitorRecovered(string monitorName) =>
+        new(
+            $"Monitor {monitorName} has recovered - Pingr",
+            string.Empty);
+    
+    public static EmailTemplate MonitorDown(string monitorName) =>
+        new(
+            $"Monitor {monitorName} is down - Pingr",
+            string.Empty);
 }
